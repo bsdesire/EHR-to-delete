@@ -39,7 +39,7 @@ class loginTechnician extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-    const contract = new web3.eth.Contract(Healthcare, "0xE847595d5Ce0675ef88Bc6d961E07b9E27A259FD")
+    const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c")
     this.setState({ contract })
 
     var account = await web3.eth.getAccounts()

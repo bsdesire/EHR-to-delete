@@ -42,11 +42,11 @@ class loginDoctor extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
    
-      const contract = new web3.eth.Contract(Healthcare, "0xE847595d5Ce0675ef88Bc6d961E07b9E27A259FD");
+      const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c");
       this.setState({ contract })
 
-    
-    var account = await web3.eth.getAccounts()
+    console.log(accounts)
+    var account = this.state.account;
     var fromAcc = account.toString();
 
     //calling smart contract
@@ -55,7 +55,8 @@ class loginDoctor extends React.Component {
     for (var i = len - 1; i >= 0; i--) {
       const details = await this.state.contract.methods.recordDocDetails(i).call({ from: fromAcc });
       const isPermit=await this.state.contract.methods.retrieveKey(details[0]).call({ from: fromAcc });
-      if(isPermit != ""){
+      console.log(isPermit);
+      if(details != ""){
       var temp = {};
       const patName = await this.state.contract.methods.returnPatName(details[2]).call({ from: fromAcc });
       temp = { "ipfsLink": details[0], "timestamp": details[1], "patientAddress": details[2], "patientName": patName }
@@ -96,6 +97,7 @@ class loginDoctor extends React.Component {
       contract: null,
       account: null,
       buffer: null,
+      file: null
     }
   }
 
@@ -104,6 +106,9 @@ class loginDoctor extends React.Component {
   captureFile = (event) => {
     event.preventDefault()
     const file = event.target.files[0]
+
+    this.setState({ file: file })
+
     const reader = new window.FileReader()
     reader.readAsArrayBuffer(file)
     reader.onloadend = () => {
@@ -111,6 +116,8 @@ class loginDoctor extends React.Component {
     }
 
   }
+
+
   async downloadFile(hash){
     console.log("download");
     const encryptedKey = await this.state.contract.methods.retrieveKey(hash).call({ from: this.state.account });
@@ -181,7 +188,8 @@ class loginDoctor extends React.Component {
                   <br />
                   <Employee 
                   data={this.state.buffer}
-                  from={"doc"}/>
+                  from={"doc"}
+                  file={this.state.file}/>
                 </div>
               </div>
             </div>

@@ -47,10 +47,8 @@ class application extends React.Component {
     // Load account
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
-    //const networkId = await web3.eth.net.getId()
-    //const networkData = Healthcare.networks[networkId]
-    
-      const contract = new web3.eth.Contract(Healthcare, "0xE847595d5Ce0675ef88Bc6d961E07b9E27A259FD")
+
+      const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c")
       this.setState({ contract })
      
 
@@ -73,6 +71,7 @@ class application extends React.Component {
   async loginDoc (){
     
     console.log("hi");
+    console.log(await this.state.contract.methods.verifyDoctor(this.state.account));
     const flag = await this.state.contract.methods.verifyDoctor(this.state.account).call();
     if (flag == true)
       return this.props.history.push('/doctor');
