@@ -39,10 +39,10 @@ class loginTechnician extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-    const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c")
+    const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D")
     this.setState({ contract })
 
-    var account = await web3.eth.getAccounts()
+    var account = this.state.account;
     var fromAcc = account.toString();
 
     //calling smart contract
@@ -87,6 +87,7 @@ class loginTechnician extends React.Component {
       contract: null,
       account: null,
       buffer: null,
+      file: null
     }
   }
 
@@ -96,6 +97,7 @@ class loginTechnician extends React.Component {
   captureFile = (event) => {
     event.preventDefault()
     const file = event.target.files[0]
+    this.setState({ file: file })
     const reader = new window.FileReader()
     reader.readAsArrayBuffer(file)
     reader.onloadend = () => {
@@ -177,7 +179,8 @@ class loginTechnician extends React.Component {
                   <br />
                   <Employee
                     data={this.state.buffer}
-                    from={"doc"} />
+                    from={"doc"}
+                    file={this.state.file} />
                 </div>
               </div>
             </div>
@@ -200,7 +203,7 @@ class loginTechnician extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       <td>{x.timestamp}</td>
-                      <td><a href={"https://ipfs.infura.io/ipfs/" + x.ipfsLink} onClick={() => this.downloadFile(x.ipfsLink)} target='_blank'>{x.ipfsLink}</a></td>
+                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={() => this.downloadFile(x.ipfsLink)} target='_blank'>{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>
@@ -226,7 +229,7 @@ class loginTechnician extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       
-                      <td><a href={"https://ipfs.infura.io/ipfs/" + x.ipfsLink} onClick={()=>this.downloadFile(x.ipfsLink)}target='_blank'>{x.ipfsLink}</a></td>
+                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={()=>this.downloadFile(x.ipfsLink)}target='_blank'>{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>

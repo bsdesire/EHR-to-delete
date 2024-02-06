@@ -42,7 +42,7 @@ class loginDoctor extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
    
-      const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c");
+      const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D");
       this.setState({ contract })
 
     console.log(accounts)
@@ -213,7 +213,7 @@ class loginDoctor extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       <td>{x.timestamp}</td>
-                      <td><a href={"https://ipfs.infura.io/ipfs/" + x.ipfsLink} className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onClick={()=>this.downloadFile(x.ipfsLink)}>{x.ipfsLink}</a></td>
+                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onClick={()=>this.downloadFile(x.ipfsLink)} target="_blank">{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>
@@ -260,7 +260,7 @@ class loginDoctor extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       
-                      <td><a href={"https://ipfs.infura.io/ipfs/" + x.ipfsLink} onClick={()=>this.downloadFile(x.ipfsLink)}target='_blank'>{x.ipfsLink}</a></td>
+                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={()=>this.downloadFile(x.ipfsLink)}target='_blank'>{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>

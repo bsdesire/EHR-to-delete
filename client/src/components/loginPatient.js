@@ -36,7 +36,7 @@ class loginPatient extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
    
-      const contract = new web3.eth.Contract(Healthcare, "0x7c94D29C5fee403968Da9CE5404666B44e36244c")
+      const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D")
       this.setState({ contract })
 
     const len = await this.state.contract.methods.recordPatCount().call({ from: this.state.account });
@@ -118,7 +118,7 @@ class loginPatient extends React.Component {
   render() {
     const detail = this.state.data.map(x =>
       <tr>
-         <td><a href={"https://ipfs.infura.io/ipfs/" + x.record} onClick={()=>this.downloadFile(x.record)} target='_blank'>{x.record}</a></td>
+         <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.record + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={()=>this.downloadFile(x.record)} target='_blank'>{x.record}</a></td>
         <td>{x.address}</td>
         <td>{x.name}</td>
         <td>{x.role}</td>
