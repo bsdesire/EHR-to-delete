@@ -6,8 +6,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Employee from "./.cph/app";
 import Web3 from 'web3'
 import { Healthcare } from "./js/Healthcare";
-import { encryptKey, encryptFile, decryptKey ,decryptFile, uintToString } from "./js/encryption.js";
-import ipfs from './js/ipfs';
+import axios from 'axios';
 const FileSaver = require('file-saver');
 
 
@@ -39,7 +38,7 @@ class loginTechnician extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-    const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D")
+    const contract = new web3.eth.Contract(Healthcare, "0x281AD0A0F586971Fd35d68AD337D3bE1775eeE26")
     this.setState({ contract })
 
     var account = this.state.account;
@@ -107,39 +106,26 @@ class loginTechnician extends React.Component {
   }
 
 
-  async downloadFile(hash) {
+  async downloadFile(hash, name) {
     console.log("download");
     const encryptedKey = await this.state.contract.methods.retrieveKey(hash).call({ from: this.state.account });
-    
-    if (encryptedKey == "") {
+    console.log(encryptedKey);
+
+    if (encryptedKey === "") {
       alert('Sorry, you are not permitted for this record');
-    }
-    else {
+    } else {
+      try {
+        const response = await axios.get("https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + hash + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx");
 
-      const decryptedKey = decryptKey(encryptedKey, this.state.account);
-      console.log("key", decryptedKey);
-      ipfs.get(hash, function (err, files) {
-        files.forEach((file) => {
-          
-          const content = uintToString(file.content);
-          
-          const decryptedfile = decryptFile(content, decryptedKey);
-          alert(decryptedfile)
-          // var blob = new Blob([decryptedfile], { type: "text/plain;charset=utf-8" });
-          // FileSaver.saveAs(blob, "doc.txt");
-
-        })
-      })
-      
-
-
+        const blob = new Blob([response.data], { type: "application/octet-stream" }); // Adjust the MIME type as per your file type
+        // Save the blob using FileSaver.js
+        FileSaver.saveAs(blob, `report${name}.txt`); // Set desired filename here
+      } catch (error) {
+        console.error("Error downloading file:", error);
+        alert("Error downloading file. Please try again later.");
+      }
     }
   }
-
-
-
-
-
 
 
   render() {
@@ -203,7 +189,7 @@ class loginTechnician extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       <td>{x.timestamp}</td>
-                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={() => this.downloadFile(x.ipfsLink)} target='_blank'>{x.ipfsLink}</a></td>
+                      <td><a onClick={() => this.downloadFile(x.ipfsLink, x.patientName)} target='_blank'>{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>
@@ -229,7 +215,7 @@ class loginTechnician extends React.Component {
                       <td>{x.patientName}</td>
                       <td>{x.patientAddress}</td>
                       
-                      <td><a href={"https://ivory-mad-smelt-651.mypinata.cloud/ipfs/" + x.ipfsLink + "?pinataGatewayToken=y134JeRV-9ryiDiW_FuCrjGThPN7zZPeRT_z3zuptbS06TxVxKjYOlg1T8WVVZQx"} onClick={()=>this.downloadFile(x.ipfsLink)}target='_blank'>{x.ipfsLink}</a></td>
+                      <td><a onClick={()=>this.downloadFile(x.ipfsLink, x.patientName)} target='_blank'>{x.ipfsLink}</a></td>
                     </tr>)}
                 </tbody>
               </table>

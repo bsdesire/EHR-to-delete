@@ -44,7 +44,7 @@ class Employee extends Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-    const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D");
+    const contract = new web3.eth.Contract(Healthcare, "0x281AD0A0F586971Fd35d68AD337D3bE1775eeE26");
     this.setState({ contract })
 
 
@@ -121,12 +121,13 @@ class Employee extends Component {
     var today = new Date();
     var date = today.getDate() + "-" + parseInt(today.getMonth() + 1) + "-" + today.getFullYear();
 
-    const formData = new FormData();
-    formData.append("file", this.props.file);
-
     const aeskey = cryptoRandomString({ length: 32 });
     const encryptedKey = encryptKey(this.state.value, aeskey);
     console.log('Encrypted key', encryptedKey);
+    console.log('AESkey', aeskey);
+
+    const formData = new FormData();
+    formData.append("file", this.props.file);
 
     const config = {
       method: "POST",
@@ -158,6 +159,8 @@ class Employee extends Component {
     } catch (error) {
       console.log(error);
     }
+
+
 
     /*
 

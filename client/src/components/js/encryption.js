@@ -2,11 +2,11 @@ var CryptoJS = require("crypto-js");
 var AES = require("crypto-js/aes");
 
 
-export function encryptFile(file, aeskey) {
+/*export function encryptFile(file, aeskey) {
     var ciphertext = CryptoJS.AES.encrypt(file, aeskey);
     return ciphertext;
 
-}
+}*/
 
 export function encryptKey(pubkey, aeskey) {
     var cipherkey = CryptoJS.AES.encrypt(aeskey, pubkey);
@@ -35,7 +35,7 @@ export function decryptKey(aeskey, privatekey) {
 //     return ba;
 //    }
 
-export function decryptFile(file, key) {
+/*export function decryptFile(file, key) {
     var bytes = CryptoJS.AES.decrypt(file, key);
     console.log("bytes",bytes);
     var plaintext = bytes.toString(CryptoJS.enc.Utf8);
@@ -45,7 +45,7 @@ export function decryptFile(file, key) {
     return (plaintext);
 
 
-}
+}*/
 export function uintToString(uintArray) {
     var decodedStr = new TextDecoder("utf-8").decode(uintArray);
     return decodedStr;

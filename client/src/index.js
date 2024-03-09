@@ -48,7 +48,7 @@ class application extends React.Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-      const contract = new web3.eth.Contract(Healthcare, "0xB79f4C6e234297BD51da7EE20Ae02efAB4DEf75D")
+      const contract = new web3.eth.Contract(Healthcare, "0x281AD0A0F586971Fd35d68AD337D3bE1775eeE26")
       this.setState({ contract })
      
 
